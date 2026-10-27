@@ -68,18 +68,40 @@ BRANCHES = [
     (3, "Barcelona — Gràcia", "Carrer del Torrent de l'Olla 68, 08012 Barcelona", "+34 932 18 45 12"),
 ]
 
-# id, título, año, cover_image_url, label_id, artist_ids, genre_ids
+# id, título, año, cover_image_url, cover_image_public_id,
+# label_id, artist_ids, genre_ids
+
 ALBUMS = [
-    (1, "Skinty Fia", 2022,
-     f"{CLOUDINARY}/v1793112473/61E50UDgg8L._UF894_1000_QL80_.jpg", 1, [1], [5]),
-    (2, "Dummy", 1994,
-     f"{CLOUDINARY}/v1793112536/71g-8xgn96L._UF350_350_QL80_.jpg", 2, [2], [6]),
-    (3, "Nonagon Infinity", 2016,
-     f"{CLOUDINARY}/v1793112562/71fd2LG3yeL._UF894_1000_QL80_.jpg", 3, [3], [7]),
-    (4, "Collapsed in Sunbeams", 2021,
-     f"{CLOUDINARY}/v1793112585/images.jpg", 4, [4], [8]),
-    (5, "Año Santo", 2010,
-     f"{CLOUDINARY}/v1793112626/triangulo_anocero.jpg", 5, [5], [9]),
+    (
+        1, "Skinty Fia", 2022,
+        f"{CLOUDINARY}/v1793112473/61E50UDgg8L._UF894_1000_QL80_.jpg",
+        "palmeras_records/albums/61E50UDgg8L._UF894_1000_QL80_",
+        1, [1], [5]
+    ),
+    (
+        2, "Dummy", 1994,
+        f"{CLOUDINARY}/v1793112536/71g-8xgn96L._UF350_350_QL80_.jpg",
+        "palmeras_records/albums/71g-8xgn96L._UF350_350_QL80_",
+        2, [2], [6]
+    ),
+    (
+        3, "Nonagon Infinity", 2016,
+        f"{CLOUDINARY}/v1793112562/71fd2LG3yeL._UF894_1000_QL80_.jpg",
+        "palmeras_records/albums/71fd2LG3yeL._UF894_1000_QL80_",
+        3, [3], [7]
+    ),
+    (
+        4, "Collapsed in Sunbeams", 2021,
+        f"{CLOUDINARY}/v1793112585/images.jpg",
+        "palmeras_records/albums/images",
+        4, [4], [8]
+    ),
+    (
+        5, "Año Santo", 2010,
+        f"{CLOUDINARY}/v1793112626/triangulo_anocero.jpg",
+        "palmeras_records/albums/triangulo_anocero",
+        5, [5], [9]
+    ),
 ]
 
 # album_id, format_id, price, stock
@@ -95,53 +117,92 @@ ALBUM_FORMATS = [
 
 
 def seed_if_empty() -> bool:
-    """Carga los datos de demo solo si la base de datos está vacía.
+    """Inserta o actualiza los álbumes de demostración."""
 
-    Devuelve ``True`` si siembra y ``False`` si ya había datos.
-    """
     db = SessionLocal()
+
     try:
-        if db.query(Genre).first() is not None:
-            return False
+        # Si la base de datos está vacía, crea los datos relacionados.
+        if db.query(Genre).first() is None:
+            labels = [
+                RecordLabel(id=i, name=n, country=c, website=w)
+                for i, n, c, w in RECORD_LABELS
+            ]
 
-        labels = [RecordLabel(id=i, name=n, country=c, website=w)
-                  for i, n, c, w in RECORD_LABELS]
-        genres = [Genre(id=i, name=n) for i, n in GENRES]
-        formats = [Format(id=i, name=n, description=d) for i, n, d in FORMATS]
-        artists = [Artist(id=i, name=n, bio=b) for i, n, b in ARTISTS]
-        branches = [Branch(id=i, name=n, address=a, phone=p)
-                    for i, n, a, p in BRANCHES]
+            genres = [
+                Genre(id=i, name=n)
+                for i, n in GENRES
+            ]
 
-        db.add_all(labels + genres + formats + artists + branches)
-        db.flush()
+            formats = [
+                Format(id=i, name=n, description=d)
+                for i, n, d in FORMATS
+            ]
 
-        artists_by_id = {a.id: a for a in artists}
-        genres_by_id = {g.id: g for g in genres}
+            artists = [
+                Artist(id=i, name=n, bio=b)
+                for i, n, b in ARTISTS
+            ]
 
-        for album_id, title, year, cover_url, cover_pid, label_id, artist_ids, genre_ids in ALBUMS:
-            album = Album(
-                id=album_id,
-                title=title,
-                release_year=year,
-                cover_image_url=cover_url,
-                cover_image_public_id=cover_pid,
-                label_id=label_id,
-            )
-            album.artists.extend(artists_by_id[i] for i in artist_ids)
-            album.genres.extend(genres_by_id[i] for i in genre_ids)
-            db.add(album)
+            branches = [
+                Branch(id=i, name=n, address=a, phone=p)
+                for i, n, a, p in BRANCHES
+            ]
 
-        db.flush()
+            db.add_all(labels + genres + formats + artists + branches)
+            db.flush()
 
-        db.add_all(
-            AlbumFormat(album_id=a, format_id=f, price=p, stock=s)
-            for a, f, p, s in ALBUM_FORMATS
-        )
+        artists_by_id = {
+            artist.id: artist
+            for artist in db.query(Artist).all()
+        }
+
+        genres_by_id = {
+            genre.id: genre
+            for genre in db.query(Genre).all()
+        }
+
+        for (
+            album_id,
+            title,
+            year,
+            cover_url,
+            cover_pid,
+            label_id,
+            artist_ids,
+            genre_ids,
+        ) in ALBUMS:
+
+            album = db.query(Album).filter(
+                Album.id == album_id
+            ).first()
+
+            if album is None:
+                album = Album(id=album_id)
+                db.add(album)
+
+            album.title = title
+            album.release_year = year
+            album.cover_image_url = cover_url
+            album.cover_image_public_id = cover_pid
+            album.label_id = label_id
+
+            album.artists = [
+                artists_by_id[i]
+                for i in artist_ids
+            ]
+
+            album.genres = [
+                genres_by_id[i]
+                for i in genre_ids
+            ]
 
         db.commit()
         return True
-    except BaseException:
+
+    except Exception:
         db.rollback()
         raise
+
     finally:
         db.close()
