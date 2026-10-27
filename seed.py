@@ -17,7 +17,7 @@ from model.format_model import Format
 from model.genre_model import Genre
 from model.record_labels_model import RecordLabel
 
-CLOUDINARY = "https://res.cloudinary.com/u34rknur/image/upload"
+CLOUDINARY = "https://res.cloudinary.com/qacu2xv3/image/upload"
 
 RECORD_LABELS = [
     (1, "Partisan Records", "Estados Unidos", "https://partisanrecords.com"),
@@ -71,20 +71,20 @@ BRANCHES = [
 # id, título, año, cover_image_url, cover_image_public_id, label_id, artist_ids, genre_ids
 ALBUMS = [
     (1, "Skinty Fia", 2022,
-     f"{CLOUDINARY}/v1791363546/palmeras_records/albums/pz2xswjcxsqgoekuofmw.jpg",
-     "palmeras_records/albums/pz2xswjcxsqgoekuofmw", 1, [1], [5]),
+     f"{CLOUDINARY}/v1793112473/61E50UDgg8L._UF894_1000_QL80_.jpg",
+     "palmeras_records/albums/61E50UDgg8L._UF894_1000_QL80_", 1, [1], [5]),
     (2, "Dummy", 1994,
-     f"{CLOUDINARY}/v1791363626/palmeras_records/albums/khocaa7r7d5akhcdkgyn.jpg",
-     "palmeras_records/albums/khocaa7r7d5akhcdkgyn", 2, [2], [6]),
+     f"{CLOUDINARY}/v1793112536/71g-8xgn96L._UF350_350_QL80_.jpg",
+     "palmeras_records/albums/71g-8xgn96L._UF350_350_QL80_", 2, [2], [6]),
     (3, "Nonagon Infinity", 2016,
-     f"{CLOUDINARY}/v1791363721/palmeras_records/albums/jar7wifimek7uk78qacn.jpg",
-     "palmeras_records/albums/jar7wifimek7uk78qacn", 3, [3], [7]),
+     f"{CLOUDINARY}/v1793112562/71fd2LG3yeL._UF894_1000_QL80_.jpg",
+     "palmeras_records/albums/71fd2LG3yeL._UF894_1000_QL80_", 3, [3], [7]),
     (4, "Collapsed in Sunbeams", 2021,
-     f"{CLOUDINARY}/v1791363806/palmeras_records/albums/iyuxfi4imgqe6lu9k0b4.jpg",
-     "palmeras_records/albums/iyuxfi4imgqe6lu9k0b4", 4, [4], [8]),
+     f"{CLOUDINARY}/v1793112585/images.jpg",
+     "palmeras_records/albums/images", 4, [4], [8]),
     (5, "Año Santo", 2010,
-     f"{CLOUDINARY}/v1791363874/palmeras_records/albums/nmenmaoncn9tgdsn7o0n.jpg",
-     "palmeras_records/albums/nmenmaoncn9tgdsn7o0n", 5, [5], [9]),
+     f"{CLOUDINARY}/v1793112626/triangulo_anocero.jpg",
+     "palmeras_records/albums/triangulo_anocero", 5, [5], [9]),
 ]
 
 # album_id, format_id, price, stock
