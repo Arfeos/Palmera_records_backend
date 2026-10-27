@@ -206,3 +206,5 @@ def seed_if_empty() -> bool:
 
     finally:
         db.close()
+if __name__ == "__main__":
+    seed_if_empty()
