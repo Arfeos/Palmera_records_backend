@@ -68,23 +68,18 @@ BRANCHES = [
     (3, "Barcelona — Gràcia", "Carrer del Torrent de l'Olla 68, 08012 Barcelona", "+34 932 18 45 12"),
 ]
 
-# id, título, año, cover_image_url, cover_image_public_id, label_id, artist_ids, genre_ids
+# id, título, año, cover_image_url, label_id, artist_ids, genre_ids
 ALBUMS = [
     (1, "Skinty Fia", 2022,
-     f"{CLOUDINARY}/v1793112473/61E50UDgg8L._UF894_1000_QL80_.jpg",
-     "palmeras_records/albums/61E50UDgg8L._UF894_1000_QL80_", 1, [1], [5]),
+     f"{CLOUDINARY}/v1793112473/61E50UDgg8L._UF894_1000_QL80_.jpg", 1, [1], [5]),
     (2, "Dummy", 1994,
-     f"{CLOUDINARY}/v1793112536/71g-8xgn96L._UF350_350_QL80_.jpg",
-     "palmeras_records/albums/71g-8xgn96L._UF350_350_QL80_", 2, [2], [6]),
+     f"{CLOUDINARY}/v1793112536/71g-8xgn96L._UF350_350_QL80_.jpg", 2, [2], [6]),
     (3, "Nonagon Infinity", 2016,
-     f"{CLOUDINARY}/v1793112562/71fd2LG3yeL._UF894_1000_QL80_.jpg",
-     "palmeras_records/albums/71fd2LG3yeL._UF894_1000_QL80_", 3, [3], [7]),
+     f"{CLOUDINARY}/v1793112562/71fd2LG3yeL._UF894_1000_QL80_.jpg", 3, [3], [7]),
     (4, "Collapsed in Sunbeams", 2021,
-     f"{CLOUDINARY}/v1793112585/images.jpg",
-     "palmeras_records/albums/images", 4, [4], [8]),
+     f"{CLOUDINARY}/v1793112585/images.jpg", 4, [4], [8]),
     (5, "Año Santo", 2010,
-     f"{CLOUDINARY}/v1793112626/triangulo_anocero.jpg",
-     "palmeras_records/albums/triangulo_anocero", 5, [5], [9]),
+     f"{CLOUDINARY}/v1793112626/triangulo_anocero.jpg", 5, [5], [9]),
 ]
 
 # album_id, format_id, price, stock
